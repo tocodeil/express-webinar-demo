@@ -3,9 +3,15 @@
   <head>
     <title>Express</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+
   </head>
   <body>
     <h1>All Posts</h1>
+    <div class='posts'>
     <% posts.forEach(post => { %>
         <div class="post">
           <h2><%= post.header %></h2>
@@ -13,6 +19,7 @@
         </div>
         <hr />
     <% }); %>
+    </div>
     <h1>New Post Form</h1>
     <form method="POST">
       <label>
@@ -25,5 +32,21 @@
       </label>
       <input type="submit" value="Save" />
     </form>
+
+    <script>
+
+      $('form').submit(async function(e) {
+        e.preventDefault();
+        const res = await $.post('/', $(e.target).serialize());
+        const post = res.posts[res.posts.length - 1];
+        $('.posts').append(`
+        <div class="post">
+          <h2>${post.header}</h2>
+          <p>${post.content}</p>
+        </div>
+        <hr />
+        `);
+      });
+    </script>
   </body>
 </html>

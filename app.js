@@ -11,7 +11,15 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
+
+const helloMiddleware = require('./middlewares/hello.js');
+console.log(helloMiddleware);
+
+// use GLOBAL middleware
+app.use(helloMiddleware);
+
+// app.use('/foo', helloMiddleware);
 
 app.use(logger('dev'));
 app.use(express.json());
